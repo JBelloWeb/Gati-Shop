@@ -36,6 +36,10 @@ let productos = [
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
+    new Producto('Naranja', 'Impredescible', 1.50, 'cat.png', 'Común'),
+    new Producto('Naranja', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
+    new Producto('Naranja', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
+    new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
 ];
 
 //Defino su id conun contador
@@ -80,6 +84,7 @@ for(let p of productos){
     catalogo.appendChild(div);
 }
 
+//Función para crear el modal
 const CrearModal = (p) =>{
     let modales = d.querySelectorAll('.modal');
     
