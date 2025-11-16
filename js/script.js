@@ -25,6 +25,24 @@ class Producto{
         return this.#id;
     }
 }
+class Item{
+    constructor(nombre = 'Nombre', cantidad = 1,precioUnidad = 0, precioTotal = 0){
+        this.nombre = nombre;
+        this.cantidad = 1;
+        this.precioUnidad = precioUnidad;
+        this.precioTotal = (precioUnidad * cantidad);
+    }
+
+    set setCant(cantidad){
+        this.cantidad += cantidad;
+    }
+}
+
+let carrito = {
+    productos : [],
+    totalProductos: 0,
+    total : `$${0}`,
+};
 
 //Creo el array con los productos
 let productos = [
@@ -51,6 +69,7 @@ for(let g of productos){
 
 //Obtengo las referencias del documento
 const d = document;
+let header = d.querySelector('#header');
 let catalogo = d.querySelector('#catalogo');
 
 //Instancio los productos en el documento
@@ -84,6 +103,16 @@ for(let p of productos){
     catalogo.appendChild(div);
 }
 
+const CrearCarrito = (p) =>{
+    if(carrito.totalProductos == 0){
+        let carrito = d.createElement('div');
+        let ul = d.createElement('id');
+        carrito.appendChild(ul);
+        carrito.id = 'carrito';
+        header.appendChild(carrito);
+    }
+}
+
 //Función para crear el modal
 const CrearModal = (p) =>{
     let modales = d.querySelectorAll('.modal');
@@ -110,9 +139,16 @@ const CrearModal = (p) =>{
     let img = d.createElement('img');
     fig.appendChild(img);
     img.src = `assets/img/${modal.imagen}`;
+    let botones = d.createElement('div');
+    let agregar = d.createElement('p');
+    let quitar = d.createElement('p');
     let close = d.createElement('p');
+    agregar.innerHTML = '+';
+    quitar.innerHTML = '-';
     close.innerHTML = 'X';
-    close.style = 'cursor: pointer;'
+    agregar.style = 'cursor: pointer;'
+    quitar.style = 'cursor: pointer;'
+    close.style = 'cursor: pointer; color: var(--main-lightblue);'
     close.addEventListener('click', (e) =>{
         catalogo.classList = '';
         div.remove();
@@ -131,8 +167,13 @@ const CrearModal = (p) =>{
     innerDiv.appendChild(desc);
     innerDiv.appendChild(pre);
     innerDiv.appendChild(cate);
-    innerDiv.appendChild(close);
+    botones.appendChild(quitar);
+    botones.appendChild(close);
+    botones.appendChild(agregar);
+    botones.className = 'botones';
+    innerDiv.appendChild(botones);
     div.appendChild(innerDiv);
+    innerDiv.className = 'in-div';
 
     div.className ='modal';
 
