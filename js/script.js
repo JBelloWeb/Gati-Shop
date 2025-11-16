@@ -26,11 +26,11 @@ class Producto{
     }
 }
 class Item{
-    constructor(nombre = 'Nombre', cantidad = 1,precioUnidad = 0, precioTotal = 0){
+    constructor(nombre = 'Nombre', precioUnidad = 0){
         this.nombre = nombre;
         this.cantidad = 1;
         this.precioUnidad = precioUnidad;
-        this.precioTotal = (precioUnidad * cantidad);
+        this.precioTotal = (this.precioUnidad * this.cantidad);
     }
 
     set setCant(cantidad){
@@ -40,7 +40,7 @@ class Item{
 
 let carrito = {
     productos : [],
-    totalProductos: 0,
+    totalProductos: -1,
     total : `$${0}`,
 };
 
@@ -60,7 +60,7 @@ let productos = [
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
 ];
 
-//Defino su id conun contador
+//Defino su id con un contador
 let count = 1;
 for(let g of productos){
     g.setId = count;
@@ -80,11 +80,17 @@ for(let p of productos){
     f.appendChild(img);
 
     let buttons = d.createElement('div');
-    let a = d.createElement('a');
-    a.href = '#';
+    let a = d.createElement('p');
     a.innerHTML = `AGREGAR`;
-    let v = d.createElement('a');
-    v.href = '#';
+    a.addEventListener('click', (e) =>{
+        if(carrito.totalProductos == -1){
+            CrearCarrito();
+        }
+
+        carrito.productos.push(new Item(p.nombre, p.precio));
+        ActualizarCarrito();
+    })
+    let v = d.createElement('p');
     v.innerHTML = `VER`;
     //Creación de Modales
     v.addEventListener('click', ()=>{
@@ -103,13 +109,27 @@ for(let p of productos){
     catalogo.appendChild(div);
 }
 
-const CrearCarrito = (p) =>{
-    if(carrito.totalProductos == 0){
-        let carrito = d.createElement('div');
-        let ul = d.createElement('id');
-        carrito.appendChild(ul);
-        carrito.id = 'carrito';
-        header.appendChild(carrito);
+const CrearCarrito = () =>{
+    let carro = d.createElement('div');
+    let ul = d.createElement('ul');
+    carro.appendChild(ul);
+    carro.id = 'carrito';
+    header.appendChild(carro);
+    carrito.totalProductos = 0;
+}
+
+const AgregarProducto = (li) =>{
+    let carrito = header.querySelector('#carrito');
+    let list = carrito.querySelector('ul');
+    list.appendChild(li);
+}
+
+const ActualizarCarrito = () =>{
+    for(let p of carrito.productos){
+        let li = d.createElement('li');
+        li.innerHTML = p.nombre;
+        li.style= 'color: white;';
+        AgregarProducto(li);
     }
 }
 

@@ -218,7 +218,8 @@ main{
     /* flex-direction: column; */
     gap: 10px;
 
-    a{
+    p{
+        cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
