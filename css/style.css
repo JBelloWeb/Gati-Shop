@@ -81,6 +81,7 @@ header{
     position: sticky;
     top: 0;
     align-items: center;
+    z-index: 5;
 
     div{
         display: flex;
@@ -105,11 +106,23 @@ main{
     border-radius: 20px;
     width: 95vw;
     margin: auto;
-    min-height: 1000px;
+    height: fit-content;
+    max-height: 83vh;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
+    outline: 3px solid var(--main-white);
+}
 
+#catalogo.disabled{
+    overflow: hidden;
+    &::after{
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: var(--main-black);
+        mix-blend-mode: hard-light;
+    }
 }
 
 #icono{
@@ -137,8 +150,8 @@ main{
     overflow: scroll;
     scrollbar-width: none;
     width: 100%;
-    max-height: 1000px;
     padding: 20px;
+    
     background-color: hsla(from var(--main-black) h s l / 70%);
     display: flex;
     justify-content: center;
@@ -160,7 +173,6 @@ main{
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
     figure{
         margin-top: 50px;
     }
@@ -171,10 +183,28 @@ main{
     position: absolute;
     width: 70%;
     height: 50%;
-    top: 50;
-    left: 50;
-    background-color: var(--main-lightblue);
-
+    isolation: isolate;
+    outline: 3px solid var(--main-lightblue);
+    background-color: var(--main-blue);
+    z-index: 2;
+    border-radius: 15px;
+    &::after{
+        position: absolute;
+        content: '';
+        filter: blur(20px);
+        background-color: var(--main-lightblue);
+        display: block;
+        inset: 0;
+        z-index: -3;
+    }
+    &::before{
+        position: absolute;
+        content: '';
+        background-color: var(--main-blue);
+        inset: 0;
+        display: block;
+        z-index: -2;
+    }
 }
 
 .botones{
@@ -243,8 +273,28 @@ footer{
 
     #catalogo{
         width: 80%;
-        height: 1000px;
         align-items: center;
+    }
+
+    .modal{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        figure{
+            width: 40%;
+            img{width: 100%;}
+        }
+        div{
+            height: 100%;
+            padding: 20px;
+            width: 60%;
+            border-left: 3px solid var(--main-white);
+            text-align: center;
+            display: flex;
+            justify-content: start;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 
     .carta{

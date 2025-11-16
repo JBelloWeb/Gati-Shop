@@ -87,6 +87,7 @@ for(let p of productos){
 //Función para crear el modal
 const CrearModal = (p) =>{
     let modales = d.querySelectorAll('.modal');
+    catalogo.className = 'disabled';
     
     //Si hay un modal activo,lo removemos
     for(let m of modales){
@@ -96,7 +97,8 @@ const CrearModal = (p) =>{
     let modal = new Producto(p.nombre, p.descripcion, p.precio, p.imagen, p.categoria);
 
     let div = d.createElement('div');
-    let titulo = d.createElement('p');
+    let innerDiv= d.createElement('div');
+    let titulo = d.createElement('h2');
     titulo.innerHTML = modal.nombre;
     let desc = d.createElement('p');
     desc.innerHTML = modal.descripcion;
@@ -104,24 +106,33 @@ const CrearModal = (p) =>{
     pre.innerHTML = modal.precio;
     let cate = d.createElement('p');
     cate.innerHTML = modal.categoria;
+    let fig = d.createElement('figure');
+    let img = d.createElement('img');
+    fig.appendChild(img);
+    img.src = `assets/img/${modal.imagen}`;
     let close = d.createElement('p');
     close.innerHTML = 'X';
     close.style = 'cursor: pointer;'
     close.addEventListener('click', (e) =>{
+        catalogo.classList = '';
         div.remove();
+        d.removeEventListener('click', (e));
     })
     d.addEventListener('keydown', (e) =>{
         if(e.key == 'Escape'){
+            catalogo.classList = '';
             div.remove();
             d.removeEventListener('keydown',(e));
         }
     });
 
-    div.appendChild(titulo);
-    div.appendChild(desc);
-    div.appendChild(pre);
-    div.appendChild(cate);
-    div.appendChild(close);
+    div.appendChild(fig);
+    innerDiv.appendChild(titulo);
+    innerDiv.appendChild(desc);
+    innerDiv.appendChild(pre);
+    innerDiv.appendChild(cate);
+    innerDiv.appendChild(close);
+    div.appendChild(innerDiv);
 
     div.className ='modal';
 
