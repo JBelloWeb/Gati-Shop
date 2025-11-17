@@ -26,16 +26,18 @@ class Producto{
     }
 }
 class Item{
-    constructor(nombre = 'Nombre', precioUnidad = 0){
-        this.nombre = nombre;
+    constructor(tipo = 'Nombre', precioUnidad = 0){
+        this.tipo = tipo;
         this.cantidad = 1;
         this.precioUnidad = precioUnidad;
-        this.precioTotal = (this.precioUnidad * this.cantidad);
+        this.precioTotal = 0;
     }
 
     set setCant(cantidad){
         this.cantidad += cantidad;
+        this.precioTotal = this.precioUnidad * this.cantidad;
     }
+
 }
 
 let carrito = {
@@ -46,17 +48,9 @@ let carrito = {
 
 //Creo el array con los productos
 let productos = [
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
+    new Producto('Negro', 'Impredescible', 1.50, 'cat.png', 'Común'),
+    new Producto('Siames', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
+    new Producto('Marmolado', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
 ];
 
@@ -83,12 +77,7 @@ for(let p of productos){
     let a = d.createElement('p');
     a.innerHTML = `AGREGAR`;
     a.addEventListener('click', (e) =>{
-        if(carrito.totalProductos == -1){
-            CrearCarrito();
-        }
-
-        carrito.productos.push(new Item(p.nombre, p.precio));
-        ActualizarCarrito();
+        AgregarAlCarrito(p);
     })
     let v = d.createElement('p');
     v.innerHTML = `VER`;
@@ -109,6 +98,28 @@ for(let p of productos){
     catalogo.appendChild(div);
 }
 
+const AgregarAlCarrito = (p) =>{
+    if(carrito.totalProductos === -1) CrearCarrito();
+    const existente = carrito.productos.find(i => i.tipo === p.nombre);
+    if(existente){
+        existente.setCant = 1;
+    } else{
+        let nuevo = new Item(p.nombre, p.precio);
+        carrito.productos.push(nuevo);
+        nuevo.setCant = 0;
+    }
+    ActualizarCarrito();
+}
+
+const QuitarDelCarrito = (p) =>{
+    if(carrito.totalProductos === -1) return;
+    const item = carrito.productos.find(i => i.tipo === p.nombre);
+    if(item){
+        item.setCant = -1;
+    } else {return;}
+    ActualizarCarrito();
+}
+
 const CrearCarrito = () =>{
     let carro = d.createElement('div');
     let ul = d.createElement('ul');
@@ -118,19 +129,28 @@ const CrearCarrito = () =>{
     carrito.totalProductos = 0;
 }
 
-const AgregarProducto = (li) =>{
-    let carrito = header.querySelector('#carrito');
-    let list = carrito.querySelector('ul');
-    list.appendChild(li);
-}
-
 const ActualizarCarrito = () =>{
-    for(let p of carrito.productos){
-        let li = d.createElement('li');
-        li.innerHTML = p.nombre;
-        li.style= 'color: white;';
-        AgregarProducto(li);
+    let carro = header.querySelector('#carrito');
+    let ul = carro.querySelector('ul');
+    let lis = ul.querySelectorAll('li');
+    for(let li of lis){
+        li.remove();
     }
+
+    for(let p of carrito.productos){
+        if(p.cantidad <= 0){
+            for(let li of lis){
+                if(li.contains(p.nombre)) remove(li);
+            }
+        } else{ 
+            let li = d.createElement('li');
+            li.innerHTML =  `${p.tipo} (${p.cantidad}) $${p.precioTotal}`;
+            li.style= 'color: white;';
+            ul.appendChild(li);
+        }
+    }
+
+    console.log(carrito.productos);
 }
 
 //Función para crear el modal
@@ -164,7 +184,13 @@ const CrearModal = (p) =>{
     let quitar = d.createElement('p');
     let close = d.createElement('p');
     agregar.innerHTML = '+';
+    agregar.addEventListener('click', (e) =>{
+        AgregarAlCarrito(p);
+    })
     quitar.innerHTML = '-';
+    quitar.addEventListener('click', (e) =>{
+        QuitarDelCarrito(p);
+    })
     close.innerHTML = 'X';
     agregar.style = 'cursor: pointer;'
     quitar.style = 'cursor: pointer;'
