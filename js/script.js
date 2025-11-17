@@ -43,15 +43,16 @@ class Item{
 let carrito = {
     productos : [],
     totalProductos: -1,
-    total : `$${0}`,
+    total : 0,
 };
 
 //Creo el array con los productos
 let productos = [
-    new Producto('Negro', 'Impredescible', 1.50, 'cat.png', 'Común'),
-    new Producto('Siames', 'Impredescible', 1.50, 'cat-s.png', 'Común'),
-    new Producto('Marmolado', 'Impredescible', 1.50, 'cat-m.png', 'Común'),
+    new Producto('Negro', 'Serio', 1.50, 'cat.png', 'Común'),
+    new Producto('Siames', 'Elegante', 10, 'cat-s.png', 'Raro'),
+    new Producto('Marmolado', 'Variopinto', 10, 'cat-m.png', 'Raro'),
     new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
+    new Producto('GitHub', 'Perfeccionista', 100, 'cat-git.png', 'Legendario'),
 ];
 
 //Defino su id con un contador
@@ -64,7 +65,22 @@ for(let g of productos){
 //Obtengo las referencias del documento
 const d = document;
 let header = d.querySelector('#header');
+let itemCount = d.querySelector('#itemCount')
+let totalPrice = d.querySelector('#totalPrice')
 let catalogo = d.querySelector('#catalogo');
+
+
+const ActualizarHeader = (bool, value) =>{
+    if(bool){
+        if(parseFloat(value) <=-1){value = 0}
+        itemCount.innerHTML = `${value}`;
+    } else {
+        totalPrice.innerHTML = `$${value}`;
+    }
+}
+
+ActualizarHeader(true, 0);
+ActualizarHeader(false, 0);
 
 //Instancio los productos en el documento
 for(let p of productos){
@@ -108,16 +124,24 @@ const AgregarAlCarrito = (p) =>{
         carrito.productos.push(nuevo);
         nuevo.setCant = 0;
     }
+    carrito.totalProductos++;
+    carrito.total += parseFloat(p.precio);
+    ActualizarHeader(true, carrito.totalProductos);
+    ActualizarHeader(false, carrito.total);
     ActualizarCarrito();
 }
 
 const QuitarDelCarrito = (p) =>{
     if(carrito.totalProductos === -1) return;
     const item = carrito.productos.find(i => i.tipo === p.nombre);
-    if(item){
+    if(item && item.cantidad > 0){
         item.setCant = -1;
+        carrito.totalProductos--;
+        ActualizarHeader(true, carrito.totalProductos);
+        carrito.total -= parseFloat(p.precio);
+        ActualizarHeader(false, carrito.total);
+        ActualizarCarrito();
     } else {return;}
-    ActualizarCarrito();
 }
 
 const CrearCarrito = () =>{
@@ -138,19 +162,21 @@ const ActualizarCarrito = () =>{
     }
 
     for(let p of carrito.productos){
-        if(p.cantidad <= 0){
+
+
+        if(p.cantidad <= 0){ //Removemos de la lista aquellos productos que hayamos quitado en su totalidad
             for(let li of lis){
                 if(li.contains(p.nombre)) remove(li);
             }
-        } else{ 
+        } else{ //Agregamos las cantidades actualizadas
             let li = d.createElement('li');
             li.innerHTML =  `${p.tipo} (${p.cantidad}) $${p.precioTotal}`;
             li.style= 'color: white;';
             ul.appendChild(li);
+
+            console.log(carrito);
         }
     }
-
-    console.log(carrito.productos);
 }
 
 //Función para crear el modal

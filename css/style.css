@@ -104,10 +104,10 @@ header{
 main{
     overflow: hidden;
     border-radius: 20px;
-    width: 95vw;
+    width: 90vw;
     margin: auto;
     height: fit-content;
-    max-height: 83vh;
+    max-height: 85vh;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
@@ -115,14 +115,17 @@ main{
 }
 
 #carrito{
+    border-radius: 20px;
+    padding: 20px;
     position: absolute;
-    right: 30px;
+    left: 30px;
     top: 100px;
-    width: 30vw;
+    z-index: -2;
+    width: 20vw;
     height: 200px;
     overflow: scroll;
     scrollbar-width: none;
-    background-color: #84f3f7;
+    background-color: var(--main-purple);
     ul{
         list-style: none;
         display: flex;
