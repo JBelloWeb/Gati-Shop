@@ -76,10 +76,31 @@ let itemCount = d.querySelector('#itemCount')
 let totalPrice = d.querySelector('#totalPrice')
 let catalogo = d.querySelector('#catalogo');
 let btnCarrito = d.querySelector('#btnCarrito');
+let activo = true;
 
 btnCarrito.addEventListener('click', (e) =>{
-    
+    VerCarrito(activo);
 })
+
+const VerCarrito = (active) =>{
+    let carro = d.querySelector('.carrito');
+
+    if(!carro){
+        alert('Aún no hay ningún ítem en tu carrito');
+    } else{
+        if(active == true){
+            carro.style = 'display: none;';
+            activo = false;
+            return;
+        }
+        if(active == false){
+            carro.style = 'display: block;';
+            activo = true;
+            return;
+        }
+    }
+    
+}
 
 const ActualizarHeader = (bool, value) =>{
     if(bool){
@@ -141,6 +162,8 @@ const AgregarAlCarrito = (p) =>{
     }
     carrito.totalProductos++;
     carrito.total += parseFloat(p.precio);
+    activo = false;
+    VerCarrito(activo);
     ActualizarHeader(true, carrito.totalProductos);
     ActualizarHeader(false, carrito.total);
     ActualizarCarrito();
