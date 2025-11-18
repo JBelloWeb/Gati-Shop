@@ -212,6 +212,7 @@ main{
     align-items: center;
     gap: 20px;
     position: relative;
+    animation: enter 0.5s ease;
 
     h3{
         transform: translateY(20px);
@@ -237,6 +238,18 @@ main{
     outline: 5px solid var(--main-yellow);
 }
 
+@keyframes enter {
+    0%{
+        transform: translateY(100px);
+        filter: opacity(0);
+    }
+
+    100%{
+        transform: translateY(0px);
+        filter: opacity(1);
+    }
+}
+
 .modal{
     border-radius: 15px;
     color: var(--main-white);
@@ -246,6 +259,7 @@ main{
     isolation: isolate;
     background-color: var(--main-blue);
     z-index: 2;
+    animation: appear 0.5s ease;
 
     figure{
         transform-origin: bottom;
@@ -258,8 +272,9 @@ main{
         content: '';
         filter: blur(20px);
         display: block;
-        inset: 0;
+        inset: -20px;
         z-index: -3;
+        animation: blur 1s ease;
     }
     &::before{
         border-radius: 15px;
@@ -281,6 +296,29 @@ main{
 
 .modal.legendario::after{
     background-color: var(--main-yellow);
+}
+
+@keyframes appear {
+    from{
+        transform: translateY(-100px);
+    }
+
+    to{
+        transform: translateY(0px);
+    }
+}
+
+@keyframes blur {
+
+    from {
+        inset: 0;
+        filter: blur(0px);
+    }
+
+    to {
+        inset: -20px;
+        filter: blur(20px);
+    }
 }
 
 @keyframes idle {
