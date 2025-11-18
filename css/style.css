@@ -12,6 +12,7 @@
     --main-purple: #a852ca;
     --main-pink: #f865c7;
     --main-lightblue: #84f3f7;
+    --main-yellow: #ffe355;
     --main-white: #F5F5FA;
 }
 
@@ -190,8 +191,8 @@ main{
     gap: 30px;
 }
 
+
 .carta{
-    outline: 5px solid var(--main-lightblue);
     border-radius: 20px;
     width: 90%;
     height: 350px;
@@ -217,17 +218,26 @@ main{
         width: 178px;
     }
 }
+.carta.comun, .modal.comun{
+    outline: 5px solid var(--main-lightblue);
+}
+.carta.raro, .modal.raro{
+    outline: 5px solid var(--main-purple);
+}
+
+.carta.legendario, .modal.legendario{
+    outline: 5px solid var(--main-yellow);
+}
 
 .modal{
+    border-radius: 15px;
     color: var(--main-white);
     position: absolute;
     width: 70%;
     height: 50%;
     isolation: isolate;
-    outline: 3px solid var(--main-lightblue);
     background-color: var(--main-blue);
     z-index: 2;
-    border-radius: 15px;
 
     figure{
         transform-origin: bottom;
@@ -235,15 +245,16 @@ main{
     }
 
     &::after{
+        border-radius: 15px;
         position: absolute;
         content: '';
         filter: blur(20px);
-        background-color: var(--main-lightblue);
         display: block;
         inset: 0;
         z-index: -3;
     }
     &::before{
+        border-radius: 15px;
         position: absolute;
         content: '';
         background-color: var(--main-blue);
@@ -251,6 +262,17 @@ main{
         display: block;
         z-index: -2;
     }
+}
+
+.modal.comun::after{
+    background-color: var(--main-lightblue);
+}
+.modal.raro::after{
+    background-color: var(--main-purple);
+}
+
+.modal.legendario::after{
+    background-color: var(--main-yellow);
 }
 
 @keyframes idle {

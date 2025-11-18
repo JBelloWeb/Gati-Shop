@@ -48,14 +48,14 @@ let carrito = {
 
 //Creo el array con los productos
 let productos = [
-    new Producto('Negro', 'Serio', 1.50, 'cat.png', 'Común'),
+    new Producto('Negro', 'Serio', 1.50, 'cat.png', 'Comun'),
     new Producto('Chispas', 'Electrisante', 1.50, 'cat-chispas.png', 'Raro'),
-    new Producto('Blanco', 'Gentil', 1.50, 'cat-w.png', 'Común'),
+    new Producto('Blanco', 'Gentil', 1.50, 'cat-w.png', 'Comun'),
     new Producto('Siames', 'Elegante', 10, 'cat-s.png', 'Raro'),
     new Producto('Spike', 'Manchas', 15, 'cat-spike.png', 'Raro'),
     new Producto('Marmolado', 'Variopinto', 10, 'cat-m.png', 'Raro'),
     new Producto('Pintor', 'Colorido', 10, 'cat-painter.png', 'Raro'),
-    new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Común'),
+    new Producto('Naranja', 'Impredescible', 1.50, 'cat-o.png', 'Comun'),
     new Producto('Monoculo', 'sabio', 1.50, 'cat-monoculo.png', 'Raro'),
     new Producto('Octocat', 'Perfeccionista', 100, 'cat-git.png', 'Legendario'),
     new Producto('NyanCat', 'Mágico', 200, 'cat-nyan.png', 'Legendario'),
@@ -145,7 +145,7 @@ for(let p of productos){
     div.appendChild(header);
     div.appendChild(f);
     div.appendChild(buttons);
-    div.className = 'carta';
+    div.className = `carta ${p.categoria.toLowerCase()}`;
 
     catalogo.appendChild(div);
 }
@@ -285,7 +285,7 @@ const CrearModal = (p) =>{
     div.appendChild(innerDiv);
     innerDiv.className = 'in-div';
 
-    div.className ='modal';
+    div.className = `modal ${p.categoria.toLowerCase()}`;
 
     catalogo.appendChild(div);
 }
